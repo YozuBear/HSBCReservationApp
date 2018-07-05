@@ -1,0 +1,24 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+   
+    <h1>Administrator</h1>
+
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>
+
+    <div class="col-md-10">
+        <legend>Database Management</legend>
+        <div id="archive-section">
+            <p class="description-needed">Archive Inactive Bookings</p>
+            <p><small>Move desk reservations that have passed the current date from desk reservation table to archive table in database.</small></p>
+            <button type="button" class="btn btn-default" ng-click="archive()">Archive</button>
+        </div>
+        <div id="db-backup-section">
+            <p>Database Backup</p>
+            <button type="button" class="btn btn-default" ng-click="dbBackup()">Backup</button>
+        </div>
+        <div id="log-message-section">
+            <p>Log</p>
+            <textarea rows="10" id="log-message" placeholder="Log message will be shown here." ng-model="logMessage" readonly></textarea>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+   
+    <h1>Administrator</h1>
+    
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>
+    
+    <!--- Location List --->    
+
+    <div id='loc' class="col-md-10 sub-section" style="display: inline-block">
+        <table ng-table="locationTable" class="ui table compact segment" show-filter="true">
+           <tr ng-repeat="location in $data">
+               <td data-title="'Office Name'" filter="{ 'officename': 'text'}" sortable="'officename'">
+                   {{location.officename}}
+               </td>
+               <td data-title="'Address'" filter="{ 'address': 'text'}" sortable="'address'" >
+                   {{location.address}}
+               </td>
+
+               <td data-title="'Action'" style="width:150px">
+                    <button class="btn btn-info btn-xs" ng-click="switchToEdit(location)"><i class="glyphicon glyphicon-edit"></i></button>
+                    <button class="btn btn-danger btn-xs" ng-click="confirmLocDelete(location)"><i class="glyphicon glyphicon-trash"></i></button>
+               </td>
+           </tr>
+        </table>
+        <button type="button" class="btn btn-default" ng-click="switchToAdd()">Add Location</button>
+    </div>    
+    
+    <!--- Add Location --->
+
+    <div id="add" class="col-md-10 sub-section" style="display: none">
+        <legend>Add Location</legend>
+        <form class="col-md-10 form-horizontal" ng-submit="locationAdd()">
+            <div class="form-group">
+                <label for="add-officename" class="col-md-3 control-label">Office Name</label>
+                <div class="col-md-4">
+                    <input id="add-officename" class="form-control" ng-model="addLoc.name" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="add-address" class="col-md-3 control-label">Address</label>
+                <div class="col-md-6">
+                    <input id="add-address" class="form-control" ng-model="addLoc.address" type="text">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-default">Add</button>
+            <button type="button" class="btn btn-default" ng-click="reload()">Go Back</button>
+        </form>
+      </div>
+
+    <!--- Edit location --->
+
+    <div id="edit" class="col-md-10 sub-section" style="display:none">
+        <legend>Edit Location</legend>
+        <form class="col-md-10 form-horizontal" ng-submit="locationEdit()">
+            <div class="form-group">
+                <label for="edit-officename" class="col-md-3 control-label">Office Name</label>
+                <div class="col-md-4">
+                    <input id="edit-officename" class="form-control" ng-model="editLoc.name" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="edit-address" class="col-md-3 control-label">Address</label>
+                <div class="col-md-6">
+                    <input id="edit-address" class="form-control" ng-model="editLoc.address" type="text">
+                </div>
+                <button type="submit" id="update_btn" class="btn btn-default">Update</button>
+            </div>
+            
+        </form>
+        <div class ="space">
+            <div id='sec' class="col-md-10 sub-section" style="display: inline-table">
+            <table ng-table="floormapTable" class="ui table compact segment" show-filter="true">
+                <tr ng-repeat="floormap in $data">
+                    <td data-title="'Floor'" filter="{ 'floor': 'number'}" sortable="'floor'" >
+                                   {{floormap.floor}}
+                    </td>
+                    <td data-title="'Section'" filter="{ 'section': 'text'}" sortable="'section'" >
+                                   {{floormap.section}}
+                    </td>
+                    <td data-title="'Map'">
+                        <button ng-hide="floormap.mapURL == ''" class ="btn btn-info btn-xs" value="Open Window" ng-click="mapIcon(floormap.mapURL)" ng-model="admin.location_map_icon"><i class="glyphicon glyphicon-picture"></i></button>
+                    </td>
+                    <td data-title="'Action'" style="width:100px">
+                        <button class="btn btn-info btn-xs" ng-click="floorMapEdit(floormap)"><i class="glyphicon glyphicon-edit"></i></button>
+                        <button class="btn btn-danger btn-xs" ng-click="submitLocSecDelete(floormap.floor, floormap.section)"><i class="glyphicon glyphicon-trash"></i></button>
+                    </td>
+                </tr>
+            </table>
+            <button type="button" class="btn btn-default" ng-click="reloadToAddSection(location.officename)">Add Section</button>
+            <button type="button" class="btn btn-default" ng-click="reload()">Go Back</button>
+            </div>
+        </div>
+    </div>
+    <!--- Edit Map --->
+    <div id="edit_map" class="col-md-10 sub-section" style="display:none">
+        <form class="col-md-10 form-horizontal" ng-submit="submitLocSecEdit()">
+            <legend>Edit Map</legend>
+                <div class="form-group">
+                    <label for="editmap-officename" class="col-md-3 control-label">Office Name</label>
+                    <div class="col-md-4">
+                        <input id="editmap-officename" class="form-control" ng-model="editMap.building" type="text" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="section_floor" class="col-md-3 control-label">Floor</label>
+                    <div class="col-md-3">
+                        <input id="section_floor" class="form-control" ng-model="editLocSection.sec_floor"  type="text" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="section_section" class="col-md-3 control-label">Section</label>
+                    <div class="col-md-3">
+                        <input id="section_section" class="form-control" ng-model="editLocSection.sec_section"  type="text" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mapID" class="col-md-3 control-label">Section Map Image URL</label>
+                    <div class="col-md-9">
+                        <input id ="mapSecID" class="form-control" ng-model="editLocSection.mapURL" type="text">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-default">Update</button>
+                <button type="button" class="btn btn-default" ng-click="reloadToEdit()">Back</button>
+        </form>
+    </div>
+    
+    <!--- Add Location Section --->
+    <div id="edit_section_add" class="col-md-10 sub-section" style="display:none">
+        <form class="col-md-10 form-horizontal" ng-submit="submitLocSecAdd()">
+            <legend>Add Section</legend>
+            <div class="form-group">
+                <label for="addmap-officename" class="col-md-3 control-label">Office Name</label>
+                <div class="col-md-4">
+                    <input id="addmap-officename" class="form-control" ng-model="addMap.building" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="section_floor" class="col-md-3 control-label">Floor</label>
+                <div class="col-md-3">
+                    <input id="section_floor" class="form-control" ng-model="addLocSection.sec_floor" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="section_section" class="col-md-3 control-label">Section</label>
+                <div class="col-md-3">
+                    <input id="section_section" class="form-control" ng-model="addLocSection.sec_section" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mapID" class="col-md-3 control-label">Section Map Image URL</label>
+                <div class="col-md-7">
+                    <input id ="mapSecID" class="form-control" ng-model="addLocSection.mapID" type="text">
+                </div>
+            </div>
+                <button type="submit" class="btn btn-default">Add</button>
+                <button type="button" class="btn btn-default" ng-click="reloadToEdit()">Cancel</button>
+        </form>
+    </div>
+</div>

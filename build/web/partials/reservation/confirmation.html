@@ -1,0 +1,47 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+    <h1>Desk Reservation</h1>
+
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>
+
+    <div class="col-md-10 res-main container">
+
+        <div id="counter">
+            You have this much time remaining to confirm: {{minutes}}M {{seconds}}S
+        </div>
+
+        <form class="row">
+            <fieldset>
+                <div class="container-fluid">
+                    <legend>Confirm Desk Reservation</legend>
+                    <p>
+                        Name: <b><span ng-bind="employee.name"></span></b> <br>
+                        ID: <b><span ng-bind="employee.id"></span></b> <br>
+                        E-mail: <b><span ng-bind="employee.email"></span></b> <br>
+                        Phone Number: <b><span ng-bind="employee.phoneNum"></span></b> <br>
+                        Reservation Start: <b><span ng-bind="startdt"></span></b> <br>
+                        Reservation End: <b><span ng-bind="enddt"></span></b> <br>
+                        Building: <b><span ng-bind="building"></span></b> <br>
+                        Floor: <b><span ng-bind="floor"></span></b> <br>
+                        Section: <b><span ng-bind="section"></span></b> <br>
+                        Desk ID: <b><span ng-bind="desk"></span></b> <br>
+                    </p>
+                    <div>
+                        <input type="checkbox" id="email" checked ng-model="emailCheck">Send me a confirmation Email
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary" ng-click="confirm(email)">Confirm Reservation</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    <div ng-hide="floorPlan == ''" id="image-frame" class="row">
+        <img id="floor-maps" ng-src="{{floorPlan}}" src="" alt="Floor Map" ng-click="zoomInAndOutImage()" class="thumbnail">
+        <button type="button" id="zoomout" class="btn btn-default" ng-click="zoom(0.5)"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span></button>
+        <button type="button" id="zoomin" class="btn btn-default" ng-click="zoom(2)"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></button>
+    </div>
+        <div ng-show="floorPlan == ''" id="no-image-frame">
+        <span id="no-image-message">No Desk Map Image Uploaded</span>     
+        </div>
+    </div>
+</div>

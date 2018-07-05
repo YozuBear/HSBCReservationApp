@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <div class="navbar-header" id="top-nav-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-nav-bar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><img src="images/hsbc-logo.gif" alt="logo-image"></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="top-nav-bar">
+        <ul class="nav navbar-nav"> 
+            <li><a ng-click="go('/')">Reserve</a></li>
+            <li><a ng-click="go('/myreservations')">My Reservations</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Inquiry <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="go('/inquiry')">Desk ID</a></li>
+                    <li><a ng-click="go('/inquiry/employee')">Employee</a></li>
+                </ul>
+            </li>
+            <li class="dropdown" ng-if="isAdmin">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="go('/admin')">Admins</a></li>
+                    <li><a ng-click="go('/admin/reservation')">Reservations</a></li>
+                    <li><a ng-click="go('/admin/desk')">Desks</a></li>
+                    <li><a ng-click="go('/admin/location')">Locations</a></li>
+                    <li><a ng-click="go('/admin/database')">Database</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login As <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li ng-hide="employee.name=='John Doe'"><a ng-click="switchUser('John Doe')">John Doe</a></li>
+                    <li ng-hide="employee.name=='Clifford Lee'"><a ng-click="switchUser('Clifford Lee')">Clifford Lee</a></li>
+                    <li ng-hide="employee.name=='Jerry Jim'"><a ng-click="switchUser('Jerry Jim')">Jerry Jim</a></li>
+                    <li ng-hide="employee.name=='Julin Song'"><a ng-click="switchUser('Julin Song')">Julin Song</a></li>
+                </ul>
+            </li>
+        </ul>
+        <span id="welcome-message-md">Welcome {{employee.name}}</span>
+        <span id="welcome-message-sm">Welcome {{employee.name}}</span>
+    </div>
+    
+</div>

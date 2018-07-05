@@ -1,0 +1,35 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+   
+    <h1>My Reservations</h1>
+
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>
+    
+<!--- Reservation Entries --->    
+    <div id='entries' class="col-md-10 sub-section" style="display: inline-block">
+        <table ng-table="entryTable" class="ui table compact segment" show-filter="true">
+           <tr ng-repeat="entry in $data">
+               <td data-title="'Desk'" filter="{ 'desk.deskID': 'text'}" sortable="'desk.deskID'" >
+                   {{entry.desk.deskID}}
+               </td>
+               <td data-title="'Building'" filter="{ 'desk.building': 'text'}" sortable="'desk.building'">
+                   {{entry.desk.building}}
+               </td>
+               <td data-title="'Reservation Start'" filter="{ 'base.startDate': 'text'}" sortable="'base.startDate'">
+                   {{entry.base.startDate}}
+               </td>
+               <td data-title="'Time Start'" filter="{ 'base.startTime': 'text'}" sortable="'base.startTime'">
+                   {{entry.base.startTime}}
+               </td>
+               <td data-title="'Reservation End'" filter="{ 'base.endDate': 'text'}" sortable="'base.endDate'">
+                   {{entry.base.endDate}}
+               </td> 
+               <td data-title="'Time End'" filter="{ 'base.endTime': 'text'}" sortable="'base.endTime'">
+                   {{entry.base.endTime}}
+               </td>
+               <td data-title="'Action'" style="width:150px">
+                    <button class="btn btn-danger btn-xs" ng-click="confirmResDelete(entry)"><i class="glyphicon glyphicon-trash"></i></button>
+               </td>
+           </tr>
+        </table>
+    </div>

@@ -1,0 +1,35 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+    <h1>Desk Reservation</h1>
+
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>
+
+    <div class="col-md-10 res-main">
+    <form class="row">
+        <fieldset>
+            <div class="container-fluid">
+                <legend>Select A Desk</legend>
+
+                <div class="row">
+                    <div class="col-sm-10">
+                        <select ng-init="selected.desk=desks[0]" ng-model="selected.desk" ng-options="item for item in desks" class="form-control" id="sel1">
+                        </select>
+                    </div>  
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-primary" ng-click="updateSelection(selected)">Select Desk</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div ng-hide="floorPlan == ''" id="image-frame" class="row">
+        <img id="floor-maps" ng-src="{{floorPlan}}" src="" alt="Floor Map" ng-click="zoomInAndOutImage()" class="thumbnail">
+        <button type="button" id="zoomout" class="btn btn-default" ng-click="zoom(0.5)"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span></button>
+        <button type="button" id="zoomin" class="btn btn-default" ng-click="zoom(2)"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></button>
+    </div>
+        <div ng-show="floorPlan == ''" id="no-image-frame">
+        <span id="no-image-message">No Section Map Image Uploaded</span>     
+        </div>
+    </div>
+
+</div>

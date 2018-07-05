@@ -1,0 +1,91 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+    <h1>Inquire Reservation Entries By Desk ID</h1>
+
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>
+    
+    <div id="inquiry-main" class="col-md-8" ng-init="form_submitted=false">
+        <form class="form-horizontal" ng-hide="form_submitted" ng-submit="search()">
+            <div class="form-group">
+                <label for="date" class="col-sm-2 control-label">Date</label>
+                <div class='input-group date col-sm-3' id='datetimepicker'>
+                    <input ng-model="inquiry.date" type='text' class="form-control">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="location" class="col-sm-2 control-label">Location</label>
+                <div class="col-sm-4">
+                    <select class="form-control" id="location" ng-model="inquiry.location" ng-change="updateFloors()">
+                      <option ng-repeat='location in locations'>{{location}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="floor" class="col-sm-2 control-label">Floor</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="floor" ng-model="inquiry.floor" ng-change="updateSections()">
+                      <option ng-repeat='floor in floors'>{{floor}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="section" class="col-sm-2 control-label">Section</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="section" ng-model="inquiry.section" ng-change="updateMap()">
+                      <option ng-repeat='section in sections'>{{section}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="desk" class="col-sm-2 control-label">Desk ID</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="desk" placeholder="Desk ID" ng-model="inquiry.desk">
+                </div>
+            </div>
+            <button id="form-btn" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <script type="text/javascript">
+                    $(function () {
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth() + 1; //January is 0!
+                        var yyyy = today.getFullYear();
+                        if (dd < 10) {
+                            dd = '0' + dd;
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm;
+                        }
+                        today = mm + '/' + dd + '/' + yyyy;
+                        $('#datetimepicker').datepicker(); 
+                        $('#datetimepicker').datepicker('setDate', today);
+                    });
+        </script>
+            <div id="inquiry-result" ng-show="form_submitted">
+              <legend>{{inquiry.floor}}.{{inquiry.section}}.{{inquiry.desk}} at {{inquiry.location}} on {{inquiry.date}}</legend>
+            <ul class="list-group" id="accordion">
+              <li ng-repeat="result in results track by $index" class="list-group-item entry panel"  data-parent="#accordion" data-toggle="collapse" data-target="#collapse-{{$index}}"><span>Reserved by {{result.employee.name}} from {{result.startDate}} {{result.startTime}} to {{result.endDate}} {{result.endTime}}</span>
+                <ul id="collapse-{{$index}}" class="entry-info collapse panel-collapse">
+                      <li class="entry-detail">Name: {{result.employee.name}}</li>
+                      <li class="entry-detail">Department: {{result.employee.dept}}</li>
+                      <li class="entry-detail">Phone Number: {{result.employee.phoneNum}}</li>
+                      <li class="entry-detail">Email Address: {{result.employee.email}}</li>
+                    </ul>
+                  </li>
+                </ul>
+              <p id="no-results" ng-if="results.length == 0">No reservations found</p>
+            </div>
+
+        <button type="button" id="go-back" ng-click="reload()" ng-show="form_submitted" class="btn btn-primary">Go Back</button>
+    <div ng-hide="floorPlan == ''" id="image-frame" class="row">
+        <img id="floor-maps" ng-src="{{floorPlan}}" src="" alt="Floor Map" ng-click="zoomInAndOutImage()" class="thumbnail">
+        <button type="button" id="zoomout" class="btn btn-default" ng-click="zoom(0.5)"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span></button>
+        <button type="button" id="zoomin" class="btn btn-default" ng-click="zoom(2)"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></button>
+    </div>
+        <div ng-show="floorPlan == ''" id="no-image-frame">
+        <span id="no-image-message">No Section Map Image Uploaded</span>     
+        </div>
+    </div>

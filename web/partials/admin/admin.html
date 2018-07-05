@@ -1,0 +1,38 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+   
+    <h1>Administrator</h1>
+
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>
+    
+<!--- Admins --->    
+    <div id='entries' class="col-md-10 sub-section" style="display: inline-block">
+        <table ng-table="adminTable" class="ui table compact segment" show-filter="true">
+           <tr ng-repeat="admin in $data">
+               <td data-title="'Employee ID'" filter="{ 'emp_id': 'number'}" sortable="'emp_id'">
+                   {{admin.emp_id}}
+               </td>
+               <td data-title="'Action'" style="width:150px">
+                    <button class="btn btn-danger btn-xs" ng-click="confirmAdminDelete(admin)"><i class="glyphicon glyphicon-trash"></i></button>
+               </td>
+           </tr>
+        </table>
+        <button type="button" class="btn btn-default" ng-click="switchToAdd()">Add Admin</button>
+      </div>
+
+<!--- Add Admin --->
+
+<div id="add" class="col-md-10 sub-section" style="display: none">
+    <legend>Admin</legend>
+    <form class="col-md-10 form-horizontal" ng-submit="admin()">
+        <div class="form-group">
+            <label for="id" class="col-md-3 control-label">Employee ID</label>
+            <div class="col-md-3">
+                <input id="id" class="form-control" ng-model="addAdmin.id" type="text">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Add</button>
+        <button type="button" class="btn btn-default" ng-click="reload()">Go Back</button>
+    </form>
+</div>
+</div>

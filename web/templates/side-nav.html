@@ -1,0 +1,29 @@
+<ul class="nav nav-bar nav-pills panel-group" id="side-nav-bar">
+        <li class="panel" role="presentation"><a ng-class="linkToRes ? 'selected-tab' : ''" ng-click="go('/')" class="link-to-page">Reserve</a></li>
+        <li class="panel" role="presentation"><a ng-class="linkToMyRes ? 'selected-tab' : ''" ng-click="go('/myreservations')" class="link-to-page">My Reservations</a></li>
+        <li class="panel" role="presentation">
+            <a class="link-to-page" ng-click="inquiryClick = !inquiryClick; adminClick = false" data-toggle="collapse" data-parent="#side-nav-bar" data-target="#inquiry-tabs">
+                Inquiry
+                <span class="glyphicon glyphicon-menu-right" ng-hide="inquiryClick"></span>
+                <span class="glyphicon glyphicon-menu-down" ng-show="inquiryClick"></span>
+            </a>
+            <ul ng-class="onInquiry? 'nav nav-bar nav-pills collapse in' : 'nav nav-bar nav-pills collapse'" id="inquiry-tabs">
+                <li role="presentation"><a ng-class="linkToInqDesk ? 'selected-tab' : ''" ng-click="go('/inquiry')">Desk ID</a></li>
+                <li role="presentation"><a ng-class="linkToInqEmp ? 'selected-tab' : ''" ng-click="go('/inquiry/employee')">Employee</a></li>
+            </ul>
+        </li>
+        <li class="panel" role="presentation" ng-show="isAdmin">
+            <a class="link-to-page" ng-click="adminClick = !adminClick; inquiryClick = false" data-toggle="collapse" data-parent="#side-nav-bar" data-target="#admin-tabs">
+                Admin
+                <span class="glyphicon glyphicon-menu-right" ng-hide="adminClick"></span>
+                <span class="glyphicon glyphicon-menu-down" ng-show="adminClick"></span>
+            </a>
+            <ul ng-class="onAdmin? 'nav nav-bar nav-pills collapse in' : 'nav nav-bar nav-pills collapse'" id="admin-tabs">
+                <li role="presentation"><a ng-class="linkToAdmin ? 'selected-tab' : ''" ng-click="go('/admin')">Admins</a></li>
+                <li role="presentation"><a ng-class="linkToAdminRes ? 'selected-tab' : ''" ng-click="go('/admin/reservation')">Reservations</a></li>
+                <li role="presentation"><a ng-class="linkToAdminDesk ? 'selected-tab' : ''" ng-click="go('/admin/desk')">Desks</a></li>
+                <li role="presentation"><a ng-class="linkToAdminLoc ? 'selected-tab' : ''" ng-click="go('/admin/location')">Locations</a></li>
+                <li role="presentation"><a ng-class="linkToAdminDB ? 'selected-tab' : ''" ng-click="go('/admin/database')">Database</a></li>
+            </ul>
+        </li>
+</ul>

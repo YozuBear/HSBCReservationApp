@@ -1,0 +1,14 @@
+<header>
+    <a ng-click="go('/')"><img id="hsbc-logo" src="images/hsbc-homelogo.jpg" alt="hsbc international logo"></a>
+    <h2>Welcome <span ng-bind="employee.name"></span></h2>
+    <div class="dropdown" id="switch-user">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Login As
+            <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li ng-hide="employee.name=='John Doe'"><a ng-click="switchUser('John Doe')">John Doe</a></li>
+            <li ng-hide="employee.name=='Clifford Lee'"><a ng-click="switchUser('Clifford Lee')">Clifford Lee</a></li>
+            <li ng-hide="employee.name=='Jerry Jim'"><a ng-click="switchUser('Jerry Jim')">Jerry Jim</a></li>
+            <li ng-hide="employee.name=='Julin Song'"><a ng-click="switchUser('Julin Song')">Julin Song</a></li>
+        </ul>
+    </div>
+</header>

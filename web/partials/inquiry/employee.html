@@ -1,0 +1,60 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+    <h1>Inquire Reservation Entries By Employee</h1>
+
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>    
+
+    <div id="inquiry-main" class="col-md-10" ng-init="form_submitted=false">
+        <form class="form-horizontal" ng-hide="form_submitted" ng-submit="inquiryEmp()">
+            <div class="form-group">
+                <label for="date" class="col-sm-2 control-label">Date</label>
+                <div class='input-group date col-sm-3' id='datetimepicker'>
+                    <input ng-model="inquiry.date" type='text' class="form-control">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="emp" class="col-sm-2 control-label">Employee</label>
+                <div class="col-sm-3" id="emp-select">
+                    <select class="form-control selectpicker" data-live-search="true" id="emp" ng-model="inquiry.emp">
+                      <option ng-repeat='emp in emps track by $index' value="{{emp.id}}">{{emp.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <button id="form-btn" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <script type="text/javascript">
+                    $(function () {
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth() + 1; //January is 0!
+                        var yyyy = today.getFullYear();
+                        if (dd < 10) {
+                            dd = '0' + dd;
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm;
+                        }
+                        today = mm + '/' + dd + '/' + yyyy;
+                        $('#datetimepicker').datepicker();
+                        $('#datetimepicker').datepicker('setDate', today);
+                    });
+        </script>
+            <div id="inquiry-result" ng-show="form_submitted">
+              <legend>Reservations made by {{emp_select}} on {{inquiry.date}}</legend>
+            <ul class="list-group" id="accordion">
+              <li ng-repeat="entry in entries track by $index" class="list-group-item entry panel"  data-parent="#accordion" data-toggle="collapse" data-target="#collapse-{{$index}}"><span>{{entry.base.startDate}} {{entry.base.startTime}} to {{entry.base.endDate}} {{entry.base.endTime}}</span>
+                <ul id="collapse-{{$index}}" class="entry-info collapse panel-collapse">
+                      <li class="entry-detail">Location: {{entry.desk.building}}</li>
+                      <li class="entry-detail">DeskID: {{entry.desk.deskID}}</li>
+                    </ul>
+                  </li>
+                </ul>
+              <p id="no-results" ng-if="entries.length == 0">No reservations found</p>
+            </div>
+
+        <button type="button" id="go-back" ng-click="reload()" ng-show="form_submitted" class="btn btn-primary">Go Back</button>
+    </div>
+

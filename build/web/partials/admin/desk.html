@@ -1,0 +1,191 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+   
+    <h1>Administrator</h1>
+
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>
+
+    <!--- Desk Table -->    
+
+    <div id='desk' class="col-md-10 sub-section" style="display: inline-block">
+        <table ng-table="deskTable" class="ui table compact segment" show-filter="true">
+           <tr ng-repeat="desk in $data">
+               <td data-title="'Floor'" filter="{ 'floor': 'number'}" sortable="'floor'">
+                   {{desk.floor}}
+               </td>
+               <td data-title="'Section'" filter="{ 'section': 'text'}" sortable="'section'">
+                   {{desk.section}}
+               </td>
+               <td data-title="'Desk ID'" filter="{ 'deskID': 'number'}" sortable="'deskID'">
+                   {{desk.deskID}}
+               </td>
+               <td data-title="'Building'" filter="{ 'desk.building': 'text'}" sortable="'desk.building'">
+                   {{desk.desk.building}}
+               </td>
+               <td data-title="'Map'">
+                   <button ng-hide="desk.mapUrl == ''" class ="btn btn-info btn-xs" ng-click="openMap(desk.mapUrl)"><i class="glyphicon glyphicon-picture"></i></button>
+               </td>
+               <td data-title="'Action'" style="width:150px">
+                    <button class="btn btn-info btn-xs" ng-click="switchToEdit(desk)"><i class="glyphicon glyphicon-edit"></i></button>
+                    <button class="btn btn-danger btn-xs" ng-click="confirmDeskDelete(desk.floor, desk.section, desk.deskID, desk.desk.building)"><i class="glyphicon glyphicon-trash"></i></button>
+
+               </td>
+           </tr>
+        </table>
+        <button type="button" class="btn btn-default" ng-click="switchToAdd()">Add Desk</button>
+        <button type="button" class="btn btn-default" ng-click="switchToDel()">Delete Desk</button>
+    </div>
+
+     <!--- Add Desk --->    
+
+  <div id="add" class="col-md-10 sub-section" style="display: none">
+        <legend>Add Desk(s)</legend>
+        <form class="col-md-10 form-horizontal" ng-submit="deskAdd()">
+            <div class="form-group">
+                <label for="location" class="col-md-3 control-label">Building</label>
+                <div class="col-md-5">
+                    <select id="location" class="form-control" ng-model="addDesk.location" ng-change="updateFloors(addDesk)">
+                        <option ng-repeat='location in locations'>{{location}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="floor" class="col-md-3 control-label">Floor</label>
+                <div class="col-md-2">
+                    <select id="floor" class="form-control" ng-model="addDesk.floor" ng-change="updateSections(addDesk)">
+                        <option ng-repeat='floor in floors'>{{floor}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="section" class="col-md-3 control-label">Section</label>
+                <div class="col-md-2">
+                    <select id="section" class="form-control" ng-model="addDesk.section">
+                        <option ng-repeat='section in sections'>{{section}}</option>
+                    </select> 
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="desk_from" class="col-md-3 control-label">Desk ID (from)</label>
+                <div class="col-md-3">
+                    <input id="desk_from" class="form-control" ng-model="addDesk.desk_from" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="desk_to" class="col-md-3 control-label">Desk ID (to)</label>
+                <div class="col-md-3">
+                    <input id="desk_to" class="form-control" ng-model="addDesk.desk_to" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mapurl" class="col-md-3 control-label">Desk Map Image URL</label>
+                <div class="col-md-5">
+                    <input id="mapurl" class="form-control" ng-model="addDesk.mapurl" type="text">
+                </div>
+            </div>
+            
+            <!-- Support image upload
+            <div class="form-group">
+                <label for="image" class="col-md-3 control-label">Floor Plan</label>
+                <input id="image" class="form-control-file col-md-5" fileread="addDesk.mapID" type="file">
+            </div>
+            -->
+            <button type="submit" class="btn btn-default">Add</button>
+            <button type="button" class="btn btn-default" ng-click="reload()">Go Back</button>
+        </form>
+    </div>
+
+    <!--- Edit Desk --->
+    
+    <div id="edit" class="col-md-10 sub-section" style="display: none">
+        <legend>Edit Desk</legend>
+        <form class="col-md-10 form-horizontal" ng-submit="deskEdit()">
+            <div class="form-group">
+                <label for="edit-location" class="col-md-3 control-label">Building</label>
+                <div class="col-md-5">
+                    <select id="edit-location" class="form-control" ng-model="editDesk.location" ng-change="updateFloors(editDesk)">
+                        <option ng-repeat='location in locations'>{{location}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="edit-floor" class="col-md-3 control-label">Floor</label>
+                <div class="col-md-2">
+                    <select id="edit-floor" class="form-control" ng-model="editDesk.floor" ng-change="updateSections(editDesk)">
+                        <option ng-repeat='floor in floors'>{{floor}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="edit-section" class="col-md-3 control-label">Section</label>
+                <div class="col-md-2">
+                    <select id="edit-section" class="form-control" ng-model="editDesk.section">
+                        <option ng-repeat='section in sections'>{{section}}</option>
+                    </select> 
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="edit-desk" class="col-md-3 control-label">Desk ID</label>
+                <div class="col-md-3">
+                    <input id="edit-desk" class="form-control" ng-model="editDesk.deskID" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="edit-mapurl" class="col-md-3 control-label">Desk Map Image URL</label>
+                <div class="col-md-5">
+                    <input id="edit-mapurl" class="form-control" ng-model="editDesk.mapurl" type="text">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-default">Edit</button>
+            <button type="button" class="btn btn-default" ng-click="reload()">Go Back</button>
+        </form>
+    </div>
+    
+    <!--- Delete Desk --->
+    
+  <div id="del" class="col-md-10 sub-section" style="display: none">
+        <legend>Delete Desk(s)</legend>
+        <form class="col-md-10 form-horizontal" ng-submit="confirmDesksDelete()">
+            <div class="form-group">
+                <label for="del-location" class="col-md-3 control-label">Building</label>
+                <div class="col-md-5">
+                    <select id="del-location" class="form-control" ng-model="delDesk.location" ng-change="updateFloors(delDesk)">
+                        <option ng-repeat='location in locations'>{{location}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="del-floor" class="col-md-3 control-label">Floor</label>
+                <div class="col-md-2">
+                    <select id="del-floor" class="form-control" ng-model="delDesk.floor" ng-change="updateSections(delDesk)">
+                        <option ng-repeat='floor in floors'>{{floor}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="del-section" class="col-md-3 control-label">Section</label>
+                <div class="col-md-2">
+                    <select id="del-section" class="form-control" ng-model="delDesk.section">
+                        <option ng-repeat='section in sections'>{{section}}</option>
+                    </select> 
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="del-desk_from" class="col-md-3 control-label">Desk ID (from)</label>
+                <div class="col-md-3">
+                    <input id="del-desk_from" class="form-control" ng-model="delDesk.desk_from" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="del-desk_to" class="col-md-3 control-label">Desk ID (to)</label>
+                <div class="col-md-3">
+                    <input id="del-desk_to" class="form-control" ng-model="delDesk.desk_to" type="text" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-default">Delete</button>
+            <button type="button" class="btn btn-default" ng-click="reload()">Go Back</button>
+        </form>
+    </div>
+
+</div>

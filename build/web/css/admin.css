@@ -1,0 +1,63 @@
+input#image {
+    margin-top: 8px;
+}
+
+a
+{
+  cursor: pointer; 
+  cursor: hand;
+}
+
+.button-error {
+    color: white;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+#edit_res #datetimepicker1 {
+    padding: 0 15px;
+}
+
+#edit_res #datetimepicker2 {
+    padding: 0 15px;   
+}
+
+#registration-form {
+    margin-top: 20px;
+}
+
+#registration-form label{
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+#registration-form input{
+    margin-right: 20px;
+}
+
+div.space {
+    padding: 140px 0px 25px 50px;
+}
+
+#update_btn.btn.btn-default{
+    color: #333;
+    border-color:#ccc;
+    background-color: #fff;
+}
+
+#archive-section {
+    padding-bottom: 40px;
+}
+
+#db-backup-section {
+    padding-bottom: 40px;
+}
+
+#log-message {
+    width: 100%;
+    border: 1px solid black;
+}
+
+#log-message-section {
+    padding-bottom: 50px;
+}

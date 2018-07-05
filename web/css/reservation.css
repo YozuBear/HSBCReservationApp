@@ -1,0 +1,17 @@
+#countdown 
+{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    letter-spacing: 2px;
+    color: red;
+} 
+
+#reservationForm {
+    margin-bottom: 50px;
+}
+
+ul.gallery{    
+margin-left: 3vw;     
+margin-right:3vw;  
+}

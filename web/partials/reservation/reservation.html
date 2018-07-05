@@ -1,0 +1,123 @@
+<nav class="visible-md-down navbar navbar-default" ng-include='"templates/top-nav.html"'></nav>
+<div id="main-section" class="row">
+    <h1>Desk Reservation</h1>
+    
+    <nav class="col-md-2 hidden-md-down" ng-include='"templates/side-nav.html"'></nav>
+    
+    <div class="col-md-10">
+    <form id="reservationForm" class="row">
+        <fieldset>
+            
+            <div class="container-fluid">
+                
+                <legend class="description-needed">Select Time / Floor</legend>
+                <p class="description-needed"><small>* You can make up to ten reservations.</small></p>
+                <p class="description-needed"><small>* A reservation cannot be made more than 30 days in advance.</small></p>
+                <p class="description-needed"><small>* A reservation cannot be made more than 5 days per entry.</small></p>
+
+                <div class="row" id="preference-form">
+                    
+                    <div class="form-group col-md-6 col-sm-6">
+                        <label for="startdate">Start Date</label>
+                        <div class="input-group date" id="datetimepicker1">
+                            <input name="startdate" ng-model="startdate" class="form-control" type="text" required>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2 col-sm-2">
+                        <label for="starttime">Start Time</label>
+                        <select name="starttime" ng-init="reservation.starttime=timeOptions[0]" ng-options="item for item in timeOptions" ng-model="reservation.starttime" class="form-control" required>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2 col-sm-2">
+                        <label for="startampm">AM/PM</label>
+                        <select name="startampm" ng-init="reservation.startampm=ampmOptions[0]" ng-options="item for item in ampmOptions" ng-model="reservation.startampm" class="form-control" required>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6 col-sm-6">
+                        <label for="enddate">End Date</label>
+                        <div class="input-group date" id="datetimepicker2">
+                            <input name="enddate" ng-model="enddate" class="form-control" type="text" required>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2 col-sm-2">
+                        <label for="endtime">End Time</label>
+                        <select name="endtime" ng-init="reservation.endtime=timeOptions[0]" ng-options="item for item in timeOptions" ng-model="reservation.endtime" class="form-control" required>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2 col-sm-2">
+                        <label for="endampm">AM/PM</label>
+                        <select name="endampm" ng-init="reservation.endampm=ampmOptions[0]" ng-options="item for item in ampmOptions" ng-model="reservation.endampm" class="form-control" required>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-md-6 col-sm-6">
+                        <label for="building">Building</label>
+                        <select name="building" ng-options="location for location in locations" ng-model="reservation.building" ng-change="updateFloors()" class="form-control" required>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2 col-sm-2">
+                        <label for="floor">Floor</label>
+                        <select name="floor" ng-change="updateSections()" ng-options="floor for floor in floors" ng-model="reservation.floor" class="form-control" required>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2 col-sm-2">
+                        <label for="section">Section</label>
+                        <select name="section" ng-change="updateMap()" ng-options="section for section in sections" ng-model="reservation.section" class="form-control" required>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" ng-click="update(reservation, startdate, enddate)">Submit</button>
+                       
+            </div>
+        </fieldset>
+    </form>
+    <div ng-hide="floorPlan == ''" id="image-frame" class="row">
+        <img id="floor-maps" ng-src="{{floorPlan}}" src="" alt="Floor Map" ng-click="zoomInAndOutImage()" class="thumbnail">
+        <button type="button" id="zoomout" class="btn btn-default" ng-click="zoom(0.5)"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span></button>
+        <button type="button" id="zoomin" class="btn btn-default" ng-click="zoom(2)"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></button>
+    </div>
+        <div ng-show="floorPlan == ''" id="no-image-frame">
+        <span id="no-image-message">No Section Map Image Uploaded</span>     
+        </div>
+    </div>
+
+    
+    <script type="text/javascript">
+        $(function () {
+                var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    today = mm + '/' + dd + '/' + yyyy;
+            $('#datetimepicker1').datepicker();
+            $('#datetimepicker1').datepicker('setDate', today);
+            $('#datetimepicker2').datepicker();
+            $('#datetimepicker2').datepicker('setDate', today);
+        });
+    </script>
+    
+</div>    
